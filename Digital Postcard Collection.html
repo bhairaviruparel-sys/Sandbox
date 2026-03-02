@@ -374,6 +374,14 @@
   box.addEventListener('mouseup',    function(e) { if (boxDown && isOpen && e.clientY - boxDownY > 35) close(); boxDown = false; });
   box.addEventListener('touchend',   function(e) { if (boxDown && isOpen && e.changedTouches[0].clientY - boxDownY > 35) close(); boxDown = false; });
 
+const lid = box.querySelector('.lid');
+lid.addEventListener('click', function(e) {
+  if (isOpen) {
+    e.stopPropagation(); // prevent triggering other click handlers
+    close(); // put cards back and close box
+  }
+});
+
   function open() {
     isOpen = true;
     box.classList.add('open');
@@ -383,30 +391,39 @@
   }
 
   function close() {
-    if (!isOpen) return;
-    isOpen = false;
-    nudge.classList.remove('show');
-    counterEl.classList.remove('show');
-    stage.removeEventListener('mousedown',  onStart);
-    stage.removeEventListener('touchstart', onStart);
-    window.removeEventListener('mousemove', onMove);
-    window.removeEventListener('mouseup',   onEnd);
-    window.removeEventListener('touchmove', onMove);
-    window.removeEventListener('touchend',  onEnd);
-    els.forEach(function(el, i) {
-      el.classList.remove('flipped');
-      el.style.transition = 'transform 0.42s cubic-bezier(0.4,0,0.8,0.6) ' + (i*32) + 'ms, opacity 0.32s ease ' + (i*32) + 'ms';
-      el.style.transform  = 'translateY(220px) scale(0.85)';
-      el.style.opacity    = '0';
-    });
-    setTimeout(function() {
-      stage.querySelectorAll('.postcard').forEach(function(e) { e.remove(); });
-      els = [];
-      box.classList.remove('open');
-      box.style.cursor = 'pointer';
-      hint.classList.remove('hidden');
-    }, 480 + N * 32);
-  }
+  if (!isOpen) return;
+  isOpen = false;
+  nudge.classList.remove('show');
+  counterEl.classList.remove('show');
+
+  stage.removeEventListener('mousedown',  onStart);
+  stage.removeEventListener('touchstart', onStart);
+  window.removeEventListener('mousemove', onMove);
+  window.removeEventListener('mouseup',   onEnd);
+  window.removeEventListener('touchmove', onMove);
+  window.removeEventListener('touchend',  onEnd);
+
+  // Reset cards to their original positions
+  els.forEach(function(el, i) {
+    el.classList.remove('flipped');
+    el.style.transition = 'transform 0.42s cubic-bezier(0.4,0,0.8,0.6) ' + (i*32) + 'ms, opacity 0.32s ease ' + (i*32) + 'ms';
+    el.style.transform  = 'translateY(220px) scale(0.85)';
+    el.style.opacity    = '0';
+  });
+
+  // Reset the order so next open is same sequence
+  order = Array.from({length: N}, (_, i) => i);
+  flipped = new Array(N).fill(false);
+
+  setTimeout(function() {
+    stage.querySelectorAll('.postcard').forEach(e => e.remove());
+    els = [];
+    box.classList.remove('open');
+    box.style.cursor = 'pointer';
+    hint.classList.remove('hidden');
+  }, 480 + N * 32);
+}
+ 
 </script>
 </body>
 </html>
