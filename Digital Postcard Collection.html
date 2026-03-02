@@ -33,20 +33,17 @@
   .scene { display: flex; flex-direction: column; align-items: center; }
  
   .deck-stage {
-    <div class="box-wrap" id="boxWrap">
-  <div class="lid">
-    <div class="lid-top"></div>
-    <div class="lid-front"><div class="pull-tab"></div></div>
-  </div>
-  <div class="box-body">
-    <div class="box-inside"></div>
-    <div class="corner tl"></div><div class="corner tr"></div>
-    <div class="corner bl"></div><div class="corner br"></div>
-    <div class="box-label">
-      <div class="label-main">✦ Card Collection ✦</div>
-    </div>
-  </div>
-</div>
+  position: relative;
+  width: 100vw;
+  max-width: 420px;
+  height: min(290px, 62vw);
+  margin-bottom: -10px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
    
    .close-nudge {
   position: relative; /* change from absolute */
@@ -77,9 +74,19 @@
   }
   .close-nudge.show { opacity: 0.4; }
   .postcard {
-    position: absolute; width: min(400px, 86vw); height: min(267px, 57vw);
-    border-radius: 5px; cursor: grab; touch-action: none; will-change: transform;
-  }
+  position: absolute;
+  width: min(340px, 78vw);
+  height: min(227px, 52vw);
+  border-radius: 5px;
+  cursor: grab;
+  touch-action: none;
+  will-change: transform;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  margin-left: min(-170px, -39vw);
+  margin-top: min(-113px, -26vw);
+}
   .postcard:active { cursor: grabbing; }
   .card-inner {
     width: 100%; height: 100%; position: relative; transform-style: preserve-3d;
