@@ -30,10 +30,38 @@
   @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
   @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
   .scene { display: flex; flex-direction: column; align-items: center; }
+ 
   .deck-stage {
-    position: relative; width: min(420px, 90vw); height: min(290px, 62vw);
-    margin-bottom: -10px; z-index: 6;
-    display: flex; align-items: center; justify-content: center; overflow: visible;
+    <div class="box-wrap" id="boxWrap">
+  <div class="lid">
+    <div class="lid-top"></div>
+    <div class="lid-front"><div class="pull-tab"></div></div>
+  </div>
+  <div class="box-body">
+    <div class="box-inside"></div>
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+    <div class="box-label">
+      <div class="label-main">✦ Card Collection ✦</div>
+    </div>
+  </div>
+</div>
+   
+   .close-nudge {
+  position: relative; /* change from absolute */
+  bottom: auto;       /* reset */
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 14px;   /* space below box */
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: var(--box-mid);
+  opacity: 0;
+  transition: opacity 0.5s 1.4s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
   }
   .counter {
     position: absolute; top: -32px; left: 50%; transform: translateX(-50%);
@@ -201,7 +229,7 @@
   }
 
   function updateCounter() {
-    counterEl.textContent = (order.indexOf(order[0]) + 1) + ' / ' + N;
+    counterEl.textContent = ' ';
     // simpler: just show which card number is on top
     counterEl.textContent = (CARDS.indexOf(CARDS[order[0]]) + 1) + ' / ' + N;
   }
