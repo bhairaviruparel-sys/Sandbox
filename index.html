@@ -8,6 +8,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
+
+    @media(max-width:600px) {
+      h1 {
+    font-size: 2rem;
+  }
+  .subtitle {
+    font-size: 0.95rem;
+  }
+  .container {
+    padding: 40px 16px;
+  }
+  .card img {
+    height: 180px;
+  }
+}
     * {
       margin: 0;
       padding: 0;
@@ -54,6 +69,7 @@
       border-radius: 16px;
       padding: 20px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
     }
 
     .card:hover {
@@ -63,6 +79,8 @@
 
     .card img {
       width: 100%;
+      height:260px
+      object-fit: cover;
       border-radius: 12px;
       margin-bottom: 15px;
     }
