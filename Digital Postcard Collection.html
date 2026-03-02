@@ -34,10 +34,9 @@
  
   .deck-stage {
   position: relative;
-  width: 100vw;
-  max-width: 420px;
+  width: min(420px, 90vw);
   height: min(290px, 62vw);
-  margin-bottom: -10px;
+  margin: 0 auto -10px auto;
   z-index: 6;
   display: flex;
   align-items: center;
@@ -164,8 +163,10 @@
 
  @media (max-width: 600px) {
   .scene {
-    width: 100%;
-    padding: 0 10px;
+   display:flex;
+   flex-direction:column;
+   align-items: center;
+    width: 100%
   }
   .deck-stage {
     width: 100%;
