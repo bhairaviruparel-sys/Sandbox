@@ -80,10 +80,6 @@
   cursor: grab;
   touch-action: none;
   will-change: transform;
-  left: 50%;
-  top: 50%;
-  margin-left: min(-133px, -28.5vw);
-  margin-top: min(-200px, -43vw);
 }
   .postcard:active { cursor: grabbing; }
   .card-inner {
@@ -161,12 +157,14 @@
   .corner.bl { bottom: 12px; left: 12px; } .corner.br { bottom: 12px; right: 12px; }
 
  @media (max-width: 600px) {
-  .scene {
-   display:flex;
-   flex-direction:column;
-   align-items: center;
-    width: 100%
-  }
+  .scene { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
   .deck-stage {
     width: 100%;
     height: min(240px, 70vw);
