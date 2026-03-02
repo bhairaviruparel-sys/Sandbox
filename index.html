@@ -4,69 +4,39 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SandBox</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    @media(max-width:600px) {
-      h1 {
-    font-size: 2rem;
-  }
-  .subtitle {
-    font-size: 0.95rem;
-  }
-  .container {
-    padding: 40px 16px;
-  }
-  .card img {
-    width: 100%
-    height: 300px;
-    object-fit:cover;
-    border-radius: 12px; 
-    margin-bitton:15px;
-  }
-}
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #dfe9f6;
+      color: #1a1a1a;
+      min-height: 100vh;
+      position: relative;
     }
-
-  body {
-  font-family: 'Inter', sans-serif;
-  background-color: #dfe9f6;
-  color: #1a1a1a;
-  min-height: 100vh;
-  position: relative;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.04;
-  pointer-events: none;
-  z-index: 0;
-}
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
     }
-
     .container {
       max-width: 1100px;
       margin: 0 auto;
       padding: 80px 20px;
       text-align: center;
       position: relative;
-      z-index: 1; 
+      z-index: 1;
     }
-
     h1 {
       font-family: 'Playfair Display', serif;
       font-size: 48px;
       margin-bottom: 20px;
     }
-
     .subtitle {
       font-size: 18px;
       max-width: 700px;
@@ -74,13 +44,11 @@ body::before {
       line-height: 1.6;
       color: #444;
     }
-
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 40px;
     }
-
     .card {
       background: rgba(255, 255, 255, 0.6);
       backdrop-filter: blur(8px);
@@ -88,55 +56,49 @@ body::before {
       padding: 20px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       text-decoration: none;
+      color: #1a1a1a;
     }
-
     .card:hover {
       transform: translateY(-6px);
       box-shadow: 0 20px 40px rgba(0,0,0,0.08);
     }
-
     .card img {
       width: 100%;
-      height:200px
+      height: 280px;
       object-fit: cover;
       border-radius: 12px;
       margin-bottom: 15px;
+      display: block;
     }
-
     .card h3 {
       font-size: 20px;
       font-weight: 500;
     }
-
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .subtitle { font-size: 0.95rem; }
+      .container { padding: 40px 16px; }
+      .card img { height: 200px; }
+    }
   </style>
 </head>
-
 <body>
-
   <div class="container">
     <h1>SandBox</h1>
-
     <p class="subtitle">
       Exploring design-to-code workflows with Figma MCP and AI tools,
       transforming personal interests into interactive web prototypes.
     </p>
-
     <div class="projects">
-
-      <!-- Project 1 -->
-      <a href="puzzle.html" class="card" >
+      <a href="puzzle.html" class="card">
         <img src="puzzle.png" alt="Puzzle Project">
         <h3>Puzzle Experiment</h3>
       </a>
-
-      <!-- Project 2 -->
       <a href="Digital Postcard Collection.html" class="card">
         <img src="Property1=front.png" alt="Digital Postcards Collection">
         <h3>Digital Postcard Collection</h3>
       </a>
-
     </div>
   </div>
-
 </body>
 </html>
