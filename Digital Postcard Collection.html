@@ -19,6 +19,7 @@
     align-items: center; justify-content: center;
     font-family: 'Lora', serif; color: var(--ink);
     padding: 40px 20px 60px; overflow-x: hidden; user-select: none;
+   overflow-x: hidden;
   }
   .open-hint {
     font-family: 'Caveat', cursive; font-size: 1.1rem; color: var(--box-mid);
@@ -153,6 +154,29 @@
   .corner { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #d4a060, #7a4e1e); box-shadow: 0 1px 4px rgba(0,0,0,0.3); z-index: 2; }
   .corner.tl { top: 12px; left: 12px; } .corner.tr { top: 12px; right: 12px; }
   .corner.bl { bottom: 12px; left: 12px; } .corner.br { bottom: 12px; right: 12px; }
+
+ @media (max-width: 600px) {
+  .scene {
+    width: 100%;
+    padding: 0 10px;
+  }
+  .deck-stage {
+    width: 100%;
+    height: min(240px, 70vw);
+  }
+  .postcard {
+    width: min(320px, 85vw);
+    height: min(213px, 57vw);
+  }
+  .box-wrap {
+    width: min(240px, 75vw);
+  }
+  body {
+    justify-content: center;
+    padding: 20px 10px 40px;
+  }
+}
+ 
 </style>
 </head>
 <body>
