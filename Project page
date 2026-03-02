@@ -88,13 +88,13 @@
     <div class="projects">
 
       <!-- Project 1 -->
-      <a href="#" class="card">
+      <a href="puzzle.html" class="card" class="card">
         <img src="puzzle.png" alt="Puzzle Project">
         <h3>Puzzle Experiment</h3>
       </a>
 
       <!-- Project 2 -->
-      <a href="#" class="card">
+      <a href="postcards.html" class="card" class="card">
         <img src="Property1-front.png" alt="Postcard Collection">
         <h3>Postcard Collection</h3>
       </a>
