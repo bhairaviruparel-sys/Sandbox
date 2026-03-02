@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SandBox</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #dfe9f6; /* soft blue */
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 0 auto 60px auto;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      padding: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>SandBox</h1>
+
+    <p class="subtitle">
+      Exploring design-to-code workflows with Figma MCP and AI tools,
+      transforming personal interests into interactive web prototypes.
+    </p>
+
+    <div class="projects">
+
+      <!-- Project 1 -->
+      <a href="#" class="card">
+        <img src="puzzle.png" alt="Puzzle Project">
+        <h3>Puzzle Experiment</h3>
+      </a>
+
+      <!-- Project 2 -->
+      <a href="#" class="card">
+        <img src="Property1-front.png" alt="Postcard Collection">
+        <h3>Postcard Collection</h3>
+      </a>
+
+    </div>
+  </div>
+
+</body>
+</html>
