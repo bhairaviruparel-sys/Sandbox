@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Coffee Cup Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Special+Elite&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:       #1a0f00;
+    --parchment: #e8d5a3;
+    --aged:      #d4b97a;
+    --espresso:  #3b1a08;
+    --roast:     #6b3210;
+    --cream:     #f5e9c8;
+    --accent:    #c0392b;
+    --gold:      #b8860b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--espresso);
+    background-image:
+      repeating-linear-gradient(0deg,   transparent, transparent 2px, rgba(0,0,0,.06) 2px, rgba(0,0,0,.06) 3px),
+      repeating-linear-gradient(90deg,  transparent, transparent 2px, rgba(0,0,0,.04) 2px, rgba(0,0,0,.04) 3px);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 24px 16px 48px;
+    font-family: 'Special Elite', serif;
+    color: var(--ink);
+  }
+
+  /* ── POSTER FRAME ─────────────────────────────── */
+  .poster {
+    background: var(--parchment);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    border: 6px double var(--roast);
+    outline: 2px solid var(--gold);
+    outline-offset: -12px;
+    border-radius: 4px;
+    max-width: 780px;
+    width: 100%;
+    padding: 32px 28px 36px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.6), inset 0 0 60px rgba(0,0,0,.08);
+    position: relative;
+  }
+
+  /* corner ornaments */
+  .poster::before, .poster::after {
+    content: '✦';
+    position: absolute;
+    font-size: 18px;
+    color: var(--gold);
+    top: 18px;
+  }
+  .poster::before { left: 22px; }
+  .poster::after  { right: 22px; }
+
+  /* ── HEADER ───────────────────────────────────── */
+  .header {
+    text-align: center;
+    border-bottom: 3px double var(--roast);
+    padding-bottom: 16px;
+    margin-bottom: 8px;
+  }
+  .eyebrow {
+    font-family: 'Special Elite', serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--roast);
+    margin-bottom: 4px;
+  }
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--espresso);
+    text-shadow: 2px 2px 0 var(--aged);
+    letter-spacing: -1px;
+  }
+  .subtitle {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--roast);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+  .divider {
+    text-align: center;
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 8px;
+    margin: 10px 0;
+  }
+
+  /* ── SCOREBOARD ───────────────────────────────── */
+  .scoreboard {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: 12px 0 18px;
+    font-family: 'Special Elite', serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--roast);
+  }
+  .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--espresso);
+    display: block;
+    text-align: center;
+    line-height: 1;
+  }
+
+  /* ── GRID ─────────────────────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 0 auto;
+    max-width: 640px;
+  }
+
+  /* ── CARD / CUP ───────────────────────────────── */
+  .card {
+    aspect-ratio: 3/4;
+    cursor: pointer;
+    perspective: 800px;
+    user-select: none;
+  }
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(.4,0,.2,1);
+    border-radius: 6px;
+  }
+  .card.flipped .card-inner  { transform: rotateY(180deg); }
+  .card.matched .card-inner  { transform: rotateY(180deg); }
+
+  .card-front, .card-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* FRONT = cup face-down */
+  .card-front {
+    background: var(--roast);
+    border: 3px solid var(--espresso);
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.07), 2px 3px 8px rgba(0,0,0,.4);
+    flex-direction: column;
+    gap: 4px;
+  }
+  .cup-svg { width: 62%; filter: drop-shadow(0 2px 3px rgba(0,0,0,.4)); }
+
+  /* subtle crosshatch pattern on back of cup */
+  .card-front::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,.03) 4px, rgba(255,255,255,.03) 5px);
+    border-radius: 4px;
+  }
+
+  /* BACK = bean revealed */
+  .card-back {
+    background: var(--cream);
+    border: 3px solid var(--gold);
+    transform: rotateY(180deg);
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,.06);
+  }
+  .card.matched .card-back {
+    background: #d4edda;
+    border-color: #2e7d32;
+    animation: matchPulse .5s ease;
+  }
+  @keyframes matchPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(46,125,50,.6); }
+    70%  { box-shadow: 0 0 0 12px rgba(46,125,50,0); }
+    100% { box-shadow: 0 0 0 0 rgba(46,125,50,0); }
+  }
+
+  .bean-emoji { font-size: clamp(26px, 5vw, 36px); line-height: 1; }
+  .bean-label {
+    font-family: 'Special Elite', serif;
+    font-size: clamp(8px, 1.4vw, 11px);
+    text-align: center;
+    color: var(--roast);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0 4px;
+  }
+
+  /* ── BUTTONS ──────────────────────────────────── */
+  .btn-row { text-align: center; margin-top: 22px; }
+  .btn {
+    font-family: 'Special Elite', serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: var(--espresso);
+    color: var(--parchment);
+    border: 2px solid var(--gold);
+    padding: 10px 28px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background .2s, color .2s;
+  }
+  .btn:hover { background: var(--gold); color: var(--espresso); }
+
+  /* ── WIN BANNER ───────────────────────────────── */
+  .win-banner {
+    display: none;
+    text-align: center;
+    margin: 18px 0 0;
+    padding: 16px;
+    border: 3px double var(--gold);
+    background: rgba(184,134,11,.1);
+    border-radius: 4px;
+    animation: fadeIn .6s ease;
+  }
+  .win-banner.show { display: block; }
+  .win-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--espresso);
+  }
+  .win-sub {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--roast);
+    margin-top: 4px;
+  }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:none; } }
+
+  /* ── MESSAGE ──────────────────────────────────── */
+  .msg {
+    text-align: center;
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--accent);
+    min-height: 20px;
+    margin: 10px 0 4px;
+    letter-spacing: .5px;
+    transition: opacity .3s;
+  }
+
+  @media (max-width: 480px) {
+    .grid { gap: 8px; }
+    .poster { padding: 20px 14px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <div class="header">
+    <p class="eyebrow">Est. 1887 · Single Origin</p>
+    <h1 class="title">The Coffee Cup<br>Challenge</h1>
+    <p class="subtitle">— A Game of Memory &amp; Fine Taste —</p>
+  </div>
+
+  <div class="divider">— ☕ —</div>
+
+  <div class="scoreboard">
+    <div><span class="stat-val" id="matches">0</span>Pairs</div>
+    <div><span class="stat-val" id="moves">0</span>Moves</div>
+    <div><span class="stat-val" id="remaining">8</span>Left</div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <p class="msg" id="msg"></p>
+
+  <div class="win-banner" id="winBanner">
+    <div class="win-title">☕ Perfectly Roasted! ☕</div>
+    <p class="win-sub" id="winSub"></p>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" onclick="initGame()">↺ New Game</button>
+  </div>
+
+</div>
+
+<script>
+  const BEANS = [
+    { emoji: '🫘', label: 'Arabica'    },
+    { emoji: '🟤', label: 'Robusta'    },
+    { emoji: '🌿', label: 'Ethiopia'   },
+    { emoji: '🏔️', label: 'Colombia'  },
+    { emoji: '☀️', label: 'Sumatra'    },
+    { emoji: '🌺', label: 'Yemen'      },
+    { emoji: '🍫', label: 'Dark Roast' },
+    { emoji: '🌙', label: 'Cold Brew'  },
+  ];
+
+  let cards = [], flipped = [], matched = 0, moves = 0, locked = false;
+
+  /* ── CUP SVG (face‑down) ─────────────────────── */
+  function cupSVG() {
+    return `<svg class="cup-svg" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- saucer -->
+      <ellipse cx="40" cy="78" rx="32" ry="6" fill="#2a0f03" opacity=".5"/>
+      <!-- cup body -->
+      <path d="M14 28 L20 72 Q40 78 60 72 L66 28 Z" fill="#d4a06a" stroke="#7a3c10" stroke-width="2"/>
+      <!-- cup rim -->
+      <rect x="12" y="20" width="56" height="12" rx="6" fill="#c8955a" stroke="#7a3c10" stroke-width="2"/>
+      <!-- handle -->
+      <path d="M66 38 Q80 38 80 52 Q80 66 66 66" stroke="#7a3c10" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- steam lines -->
+      <path d="M30 14 Q33 8 30 2" stroke="#c8955a" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
+      <path d="M40 12 Q43 5 40 0" stroke="#c8955a" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
+      <path d="M50 14 Q53 8 50 2" stroke="#c8955a" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
+      <!-- shine -->
+      <ellipse cx="28" cy="40" rx="5" ry="10" fill="white" opacity=".1" transform="rotate(-10 28 40)"/>
+    </svg>`;
+  }
+
+  /* ── BUILD GRID ──────────────────────────────── */
+  function initGame() {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    flipped = []; matched = 0; moves = 0; locked = false;
+    updateScore();
+    document.getElementById('winBanner').classList.remove('show');
+    document.getElementById('msg').textContent = 'Flip a cup to reveal the bean!';
+
+    // duplicate & shuffle
+    cards = [...BEANS, ...BEANS]
+      .sort(() => Math.random() - .5)
+      .map((bean, i) => ({ ...bean, id: i, matchId: BEANS.indexOf(bean) < 0
+          ? BEANS.findIndex(b => b.label === bean.label) : BEANS.indexOf(bean) }));
+
+    // re‑index matchId after sort
+    const labels = cards.map(c => c.label);
+    cards = cards.map((c, i) => {
+      const first = labels.indexOf(c.label);
+      return { ...c, matchId: first === i ? i : first };
+    });
+
+    cards.forEach((card, i) => {
+      const el = document.createElement('div');
+      el.className = 'card';
+      el.dataset.index = i;
+      el.innerHTML = `
+        <div class="card-inner">
+          <div class="card-front">${cupSVG()}</div>
+          <div class="card-back">
+            <span class="bean-emoji">${card.emoji}</span>
+            <span class="bean-label">${card.label}</span>
+          </div>
+        </div>`;
+      el.addEventListener('click', () => onFlip(i, el));
+      grid.appendChild(el);
+    });
+  }
+
+  /* ── FLIP LOGIC ──────────────────────────────── */
+  function onFlip(index, el) {
+    if (locked) return;
+    if (el.classList.contains('flipped') || el.classList.contains('matched')) return;
+    if (flipped.length === 2) return;
+
+    el.classList.add('flipped');
+    flipped.push({ index, el });
+
+    if (flipped.length === 2) {
+      moves++;
+      updateScore();
+      checkMatch();
+    }
+  }
+
+  function checkMatch() {
+    const [a, b] = flipped;
+    const same = cards[a.index].label === cards[b.index].label;
+
+    if (same) {
+      a.el.classList.add('matched');
+      b.el.classList.add('matched');
+      matched++;
+      updateScore();
+      flipped = [];
+      showMsg('☕ A fine match — exquisite taste!');
+      if (matched === BEANS.length) setTimeout(showWin, 400);
+    } else {
+      locked = true;
+      showMsg('Not quite — try again…');
+      setTimeout(() => {
+        a.el.classList.remove('flipped');
+        b.el.classList.remove('flipped');
+        flipped = [];
+        locked = false;
+        document.getElementById('msg').textContent = '';
+      }, 1100);
+    }
+  }
+
+  function updateScore() {
+    document.getElementById('matches').textContent   = matched;
+    document.getElementById('moves').textContent     = moves;
+    document.getElementById('remaining').textContent = BEANS.length - matched;
+  }
+
+  function showMsg(text) {
+    const el = document.getElementById('msg');
+    el.textContent = text;
+  }
+
+  function showWin() {
+    const rating = moves <= 12 ? 'Master Roaster' : moves <= 18 ? 'Seasoned Barista' : 'Coffee Apprentice';
+    document.getElementById('winSub').textContent =
+      `Completed in ${moves} moves · Awarded: ${rating}`;
+    document.getElementById('winBanner').classList.add('show');
+    document.getElementById('msg').textContent = '';
+  }
+
+  initGame();
+</script>
+</body>
+</html>
